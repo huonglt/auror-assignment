@@ -52,4 +52,11 @@ describe('interpolate', () => {
     })
     expect(result).toEqual('Hello null')
   })
+
+  it('should handle value of object type correctly', () => {
+    const result = interpolate('Hello [name]', {
+      name: { fullName: 'helen', lastName: 'le' },
+    })
+    expect(result).toEqual('Hello [object Object]')
+  })
 })
