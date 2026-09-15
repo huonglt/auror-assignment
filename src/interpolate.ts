@@ -12,7 +12,8 @@ const createRegExp = () => {
   // matching string pattern [key]
   const regSingleBracketWithKey = /\[([^\[\]]+)\]/
 
-  // matching pattern either [[ or ]] or [key]
+  // the combined reg of: /\[\[|\]\]|\[([^\[\]]+)\]/g
+  // matching pattern [[ or ]] or [key]
   const combinedRegStr = [
     regDoubleClosingBracket,
     regDoubleOpeningBracket,
