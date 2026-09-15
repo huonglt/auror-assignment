@@ -46,7 +46,7 @@ export function interpolate(input: string, dictValues: Record<string, any>) {
        * matching the [key] pattern here
        * substitute the [key] with dictValues[key] if exist. If not, keep the original match
        */
-      if (dictValues[key]) {
+      if (key in dictValues) {
         return String(dictValues[key])
       }
 
