@@ -8,7 +8,7 @@ To run test, type npm run test on the terminal
 
 Why I used String(value):
 
-- the dictionary values can be of any type: from primitive, to complex object etc
+- The dictionary values can be of any type: from primitive, to complex object etc
 - To get the readable form for any type of value can be quite complex & tricky
 - The requirement doesn't specify if the substitution must be in readable form
 - So I use String(value) to get the string representation of the substitution value
