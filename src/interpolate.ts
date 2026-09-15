@@ -1,7 +1,8 @@
 /**
  * create the RegExp for the string interpolation
+ * The regExp will match pattern of [[, or ]], or [key]
  */
-const createRegEx = () => {
+const createRegExp = () => {
   // matching [[ string
   const regDoubleOpeningBracket = /\[\[/
 
@@ -30,7 +31,7 @@ const createRegEx = () => {
  * @param dictValues: dictionary of values for string substitution
  */
 export function interpolate(input: string, dictValues: Record<string, any>) {
-  const regExp = createRegEx()
+  const regExp = createRegExp()
 
   // replace all matches of [[ or ]] or [key] in the input via a replacer function
   return input.replace(regExp, (match: string, key: string) => {
