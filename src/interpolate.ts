@@ -1,10 +1,34 @@
 /**
+ * create the RegExp for the string interpolation
+ */
+const createRegEx = () => {
+  // matching [[ string
+  const regDoubleOpeningBracket = /\[\[/
+
+  // matching ]] string
+  const regDoubleClosingBracket = /\]\]/
+
+  // matching string pattern [key]
+  const regSingleBracketWithKey = /\[([^\[\]]+)\]/
+
+  // matching pattern either [[ or ]] or [key]
+  const combinedRegStr = [
+    regDoubleClosingBracket,
+    regDoubleOpeningBracket,
+    regSingleBracketWithKey,
+  ]
+    .map((ex) => ex.source)
+    .join('|')
+
+  return new RegExp(combinedRegStr, 'g')
+}
+
+/**
  * string interpolation using [] as delimited tokens
  * treat double brackets as an escape sequence, in case the user wants to include brackets in the output string.
  */
 export function interpolate(input: string, dictValues: Record<string, any>) {
-  // handle the [name] pattern
-  const regExp = /\[([^\[\]]+)\]|\[\[|\]\]/g
+  const regExp = createRegEx()
   return input.replace(regExp, (matched: string, key: string) => {
     if (matched === '[[') {
       return '['
