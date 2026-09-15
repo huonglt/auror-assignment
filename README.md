@@ -6,7 +6,7 @@ To run test, type npm run test on the terminal
 
 ### Note:
 
-Why I used String(value):
+Why I used String(value) for string substitution:
 
 - The dictionary values can be of any type: from primitive, to complex object etc
 - To get the readable form for any type of value can be quite complex & tricky
