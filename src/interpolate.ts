@@ -29,18 +29,26 @@ const createRegEx = () => {
  */
 export function interpolate(input: string, dictValues: Record<string, any>) {
   const regExp = createRegEx()
-  return input.replace(regExp, (matched: string, key: string) => {
-    if (matched === '[[') {
+
+  // replace all matches of [[ or ]] or [key] in the template via a replacer function
+  return input.replace(regExp, (match: string, key: string) => {
+    if (match === '[[') {
+      // escape the double opening bracket [[ with [
       return '['
-    } else if (matched === ']]') {
+    } else if (match === ']]') {
+      // escape the double closing bracket ]] with ]
       return ']'
     } else {
-      // substitute the [match] with dictValues[key]
+      /**
+       * matching the [key] pattern here
+       * substitute the [key] with dictValues[key] if it exist
+       * otherwise keep the original matched
+       */
       if (dictValues[key]) {
         return String(dictValues[key])
       }
-      // no substitution, keep the original string
-      return matched
+
+      return match
     }
   })
 }
