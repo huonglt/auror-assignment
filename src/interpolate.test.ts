@@ -38,4 +38,11 @@ describe('interpolate', () => {
     })
     expect(result).toEqual('Hello [[name]]')
   })
+
+  it('should handle undefined value correctly', () => {
+    const result = interpolate('Hello [name]', {
+      name: undefined,
+    })
+    expect(result).toEqual('Hello undefined')
+  })
 })
