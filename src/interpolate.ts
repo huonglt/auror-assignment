@@ -32,7 +32,7 @@ const createRegEx = () => {
 export function interpolate(input: string, dictValues: Record<string, any>) {
   const regExp = createRegEx()
 
-  // replace all matches of [[ or ]] or [key] in the template via a replacer function
+  // replace all matches of [[ or ]] or [key] in the input via a replacer function
   return input.replace(regExp, (match: string, key: string) => {
     if (match === '[[') {
       // escape the double opening bracket [[ with [
@@ -43,7 +43,7 @@ export function interpolate(input: string, dictValues: Record<string, any>) {
     } else {
       /**
        * matching the [key] pattern here
-       * substitute the [key] with dictValues[key] if exist, otherwise keep the original match
+       * substitute the [key] with dictValues[key] if exist. If not, keep the original match
        */
       if (dictValues[key]) {
         return String(dictValues[key])
