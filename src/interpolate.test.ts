@@ -45,4 +45,11 @@ describe('interpolate', () => {
     })
     expect(result).toEqual('Hello undefined')
   })
+
+  it('should handle null value correctly', () => {
+    const result = interpolate('Hello [name]', {
+      name: null,
+    })
+    expect(result).toEqual('Hello null')
+  })
 })
