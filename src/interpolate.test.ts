@@ -24,4 +24,11 @@ describe('interpolate', () => {
     })
     expect(result).toEqual('Hello Jim [author]')
   })
+
+  it('should replace value for 3 brackets', () => {
+    const result = interpolate('Hello [[[name]]]', {
+      name: 'Chocolate',
+    })
+    expect(result).toEqual('Hello [Chocolate]')
+  })
 })
