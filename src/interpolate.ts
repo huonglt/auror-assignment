@@ -27,7 +27,7 @@ const createRegExp = () => {
 /**
  * function for string interpolation using [] as delimited tokens
  * treat double brackets as an escape sequence, in case user wants to include brackets in the output string
- * @param input: string
+ * @param input: the input string
  * @param dictValues: dictionary of values for string substitution
  */
 export function interpolate(input: string, dictValues: Record<string, any>) {
