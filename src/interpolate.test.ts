@@ -6,4 +6,9 @@ describe('interpolate', () => {
     const result = interpolate('Hello [name]', { name: 'Jim' })
     expect(result).toEqual('Hello Jim')
   })
+
+  it('should not replace a value when the brackets are escaped', () => {
+    const result = interpolate('Hello [name] [[author]]', { name: 'Jim' })
+    expect(result).toEqual('Hello Jim [author]')
+  })
 })
