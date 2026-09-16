@@ -86,4 +86,14 @@ describe('interpolate', () => {
     )
     expect(result).toEqual(`Hello test, ]], [[, [[1`)
   })
+
+  it('should correctly handle empty single brackets', () => {
+    const result = interpolate('Hello []', { name: 'test' })
+    expect(result).toEqual('Hello []')
+  })
+
+  it('should correctly handle empty double brackets', () => {
+    const result = interpolate('Hello [[]]', { name: 'test' })
+    expect(result).toEqual('Hello []')
+  })
 })
