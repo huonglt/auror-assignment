@@ -17,7 +17,7 @@ describe('interpolate', () => {
     expect(result).toEqual('Hello Jim [author]')
   })
 
-  it('should not replace a value when the brackets are escaped', () => {
+  it('should not replace a value when the brackets are escaped even when substituion available', () => {
     const result = interpolate('Hello [name] [[author]]', {
       name: 'Jim',
       author: 'Blue',
@@ -27,14 +27,14 @@ describe('interpolate', () => {
 
   it('should replace value for 3 brackets', () => {
     const result = interpolate('Hello [[[name]]]', {
-      name: 'Chocolate',
+      name: 'World',
     })
-    expect(result).toEqual('Hello [Chocolate]')
+    expect(result).toEqual('Hello [World]')
   })
 
   it('should not replace value for 4 brackets', () => {
     const result = interpolate('Hello [[[[name]]]]', {
-      name: 'Chocolate',
+      name: 'World',
     })
     expect(result).toEqual('Hello [[name]]')
   })
@@ -88,17 +88,17 @@ describe('interpolate', () => {
   })
 
   it('should correctly handle empty single brackets', () => {
-    const result = interpolate('Hello []', { name: 'test' })
+    const result = interpolate('Hello []', { name: 'World' })
     expect(result).toEqual('Hello []')
   })
 
   it('should correctly handle empty double brackets', () => {
-    const result = interpolate('Hello [[]]', { name: 'test' })
+    const result = interpolate('Hello [[]]', { name: 'World' })
     expect(result).toEqual('Hello []')
   })
 
   it('should correctly handle empty tripple brackets', () => {
-    const result = interpolate('Hello [[[]]]', { name: 'test' })
+    const result = interpolate('Hello [[[]]]', { name: 'World' })
     expect(result).toEqual('Hello [[]]')
   })
 })
