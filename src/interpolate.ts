@@ -51,7 +51,7 @@ const createRegExp = () => {
  * @param input: the input string iin delimiter pattern: [key], or [[key]], or [[[[key]]]]
  * @param dictValues: dictionary of values for string substitution
  */
-export function interpolateDelimiterString(
+function interpolateDelimiterString(
   input: string,
   dictValues: Record<string, any>
 ) {

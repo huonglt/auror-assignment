@@ -64,6 +64,7 @@ describe('interpolate', () => {
     const result = interpolate('Malformed string ]], [[', {})
     expect(result).toEqual('Malformed string ]], [[')
   })
+
   it('should correctly handle malformed complex string where more closing delimiter than opening delimiter', () => {
     const result = interpolate(
       'Hello [name], ]], [[, [[[moreClosingThanOpening]]]]]',
@@ -73,5 +74,16 @@ describe('interpolate', () => {
       }
     )
     expect(result).toEqual(`Hello test, ]], [[, [3]]`)
+  })
+
+  it('should correctly handle malformed complex string where more opening delimiter than closing delimiter', () => {
+    const result = interpolate(
+      'Hello [name], ]], [[, [[[moreOpeningThanClosing]',
+      {
+        name: 'test',
+        moreOpeningThanClosing: 1,
+      }
+    )
+    expect(result).toEqual(`Hello test, ]], [[, [[1`)
   })
 })
