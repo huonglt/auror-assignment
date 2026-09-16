@@ -1,6 +1,6 @@
 /**
- * create the RegExp for the delimiter string
- * The regExp will match pattern of [[, or ]], or [key]
+ * Create the RegExp to match pattern of [[, or ]], or [key]
+ * This RexExp will perform on the string already in delimiter pattern which is: [key], [[key]], [[[key]]]]]
  */
 const createRegExpForDelimiterString = () => {
   // matching [[ string
@@ -26,8 +26,8 @@ const createRegExpForDelimiterString = () => {
 }
 
 /**
- * create the RegExp for string interpolation
- * The regExp will match pattern of [key], [[key]], [[[key]]], [[[[[key]]]]]]]]
+ * Create the RegExp for string interpolation
+ * The RegExp will match pattern of [key], [[key]], [[[key]]], [[[[[key]]]]]]]]
  */
 const createRegExp = () => {
   // for pattern [key]
@@ -38,6 +38,7 @@ const createRegExp = () => {
 
   // for pattern [[]] without key
   const regEmptyDoublePairDelimiter = /\[\[\]\]/
+
   // the combined reg of: /\[([^\[\]]+)\]|\[\[\]\]|\[{1,}(?\[([^\[\]]+)\])\]{1,}/g
   // matching pattern [key], [[key]], [[[key]]], or unequal opening / closing delimiter [[[key]]]]]]
   const combinedRegStr = [
@@ -52,10 +53,10 @@ const createRegExp = () => {
 }
 
 /**
- * function for string interpolation using [] as delimited tokens
- * treat double brackets as an escape sequence, in case user wants to include brackets in the output string
- * @param input: the input string iin delimiter pattern: [key], or [[key]], or [[[[key]]]]
- * @param dictValues: dictionary of values for string substitution
+ * Function for string interpolation using [] as delimited tokens
+ * Treat double brackets as an escape sequence, in case user wants to include brackets in the output string
+ * @param {string} input: the input string already in delimiter pattern: [key], or [[key]], or [[[[key]]]]
+ * @param {Record<string, any>} dictValues: dictionary of values for string substitution
  */
 function interpolateDelimiterString(
   input: string,
@@ -88,10 +89,10 @@ function interpolateDelimiterString(
 }
 
 /**
- * function for string interpolation using [] as delimited tokens
- * treat double brackets as an escape sequence, in case user wants to include brackets in the output string
- * @param input: the input string
- * @param dictValues: dictionary of values for string substitution
+ * Function for string interpolation using [] as delimited tokens
+ * Treat double brackets as an escape sequence, in case user wants to include brackets in the output string
+ * @param {string} input: the string to interpolate
+ * @param {Record<string, any>} dictValues: dictionary of values for string substitution
  */
 export function interpolate(input: string, dictValues: Record<string, any>) {
   const regExp = createRegExp()
