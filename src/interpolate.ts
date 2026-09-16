@@ -1,8 +1,8 @@
 /**
- * create the RegExp for the string interpolation
+ * create the RegExp for the delimiter string
  * The regExp will match pattern of [[, or ]], or [key]
  */
-const createRegExp = () => {
+const createRegExpForDelimiterString = () => {
   // matching [[ string
   const regDoubleOpeningBracket = /\[\[/
 
@@ -15,8 +15,8 @@ const createRegExp = () => {
   // the combined reg of: /\[\[|\]\]|\[([^\[\]]+)\]/g
   // matching pattern [[ or ]] or [key]
   const combinedRegStr = [
-    regDoubleClosingBracket,
     regDoubleOpeningBracket,
+    regDoubleClosingBracket,
     regSingleBracketWithKey,
   ]
     .map((ex) => ex.source)
@@ -26,13 +26,36 @@ const createRegExp = () => {
 }
 
 /**
+ * create the RegExp for string interpolation
+ * The regExp will match pattern of [key], [[key]], [[[key]]], [[[[[key]]]]]]]]
+ */
+const createRegExp = () => {
+  // for pattern [key]
+  const regSinglePairDelimiter = /\[([^\[\]]+)\]/
+
+  // for pattern with multiple opening delimiter and closing delimiter [[key]] or [[[key]]], or [[[[[key]]]]]]]
+  const regMultiPairDelimiter = /\[{1,}(\[([^\[\]]+)\])\]{1,}/
+
+  // the combined reg of: /\[([^\[\]]+)\]|\[{1,}(?\[([^\[\]]+)\])\]{1,}/g
+  // matching pattern [key], [[key]], [[[key]]], or unequal opening / closing delimiter [[[key]]]]]]
+  const combinedRegStr = [regSinglePairDelimiter, regMultiPairDelimiter]
+    .map((ex) => ex.source)
+    .join('|')
+
+  return new RegExp(combinedRegStr, 'g')
+}
+
+/**
  * function for string interpolation using [] as delimited tokens
  * treat double brackets as an escape sequence, in case user wants to include brackets in the output string
- * @param input: the input string
+ * @param input: the input string iin delimiter pattern: [key], or [[key]], or [[[[key]]]]
  * @param dictValues: dictionary of values for string substitution
  */
-export function interpolate(input: string, dictValues: Record<string, any>) {
-  const regExp = createRegExp()
+export function interpolateDelimiterString(
+  input: string,
+  dictValues: Record<string, any>
+) {
+  const regExp = createRegExpForDelimiterString()
 
   // replace all matches of [[ or ]] or [key] in the input via a replacer function
   return input.replace(regExp, (match: string, key: string) => {
@@ -55,5 +78,21 @@ export function interpolate(input: string, dictValues: Record<string, any>) {
 
       return match
     }
+  })
+}
+
+/**
+ * function for string interpolation using [] as delimited tokens
+ * treat double brackets as an escape sequence, in case user wants to include brackets in the output string
+ * @param input: the input string
+ * @param dictValues: dictionary of values for string substitution
+ */
+export function interpolate(input: string, dictValues: Record<string, any>) {
+  const regExp = createRegExp()
+
+  // replace all matches of [key], [[key]] or [[[[key]]]]]] in the input via a replacer function
+  return input.replace(regExp, (match: string) => {
+    // for each match: interpolate via delimiter string to correctly handle extra opening delimiter or closing delimiter
+    return interpolateDelimiterString(match, dictValues)
   })
 }

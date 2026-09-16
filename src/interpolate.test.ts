@@ -59,4 +59,19 @@ describe('interpolate', () => {
     })
     expect(result).toEqual('Hello [object Object]')
   })
+
+  it('should correctly handle malformed delimiter string', () => {
+    const result = interpolate('Malformed string ]], [[', {})
+    expect(result).toEqual('Malformed string ]], [[')
+  })
+  it('should correctly handle malformed complex string where more closing delimiter than opening delimiter', () => {
+    const result = interpolate(
+      'Hello [name], ]], [[, [[[moreClosingThanOpening]]]]]',
+      {
+        name: 'test',
+        moreClosingThanOpening: 3,
+      }
+    )
+    expect(result).toEqual(`Hello test, ]], [[, [3]]`)
+  })
 })
