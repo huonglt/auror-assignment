@@ -36,9 +36,15 @@ const createRegExp = () => {
   // for pattern with multiple opening delimiter and closing delimiter [[key]] or [[[key]]], or [[[[[key]]]]]]]
   const regMultiPairDelimiter = /\[{1,}(\[([^\[\]]+)\])\]{1,}/
 
-  // the combined reg of: /\[([^\[\]]+)\]|\[{1,}(?\[([^\[\]]+)\])\]{1,}/g
+  // for pattern [[]] without key
+  const regEmptyDoublePairDelimiter = /\[\[\]\]/
+  // the combined reg of: /\[([^\[\]]+)\]|\[\[\]\]|\[{1,}(?\[([^\[\]]+)\])\]{1,}/g
   // matching pattern [key], [[key]], [[[key]]], or unequal opening / closing delimiter [[[key]]]]]]
-  const combinedRegStr = [regSinglePairDelimiter, regMultiPairDelimiter]
+  const combinedRegStr = [
+    regSinglePairDelimiter,
+    regEmptyDoublePairDelimiter,
+    regMultiPairDelimiter,
+  ]
     .map((ex) => ex.source)
     .join('|')
 
